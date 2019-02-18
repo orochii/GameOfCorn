@@ -11,7 +11,7 @@ public class CornCell : MonoBehaviour {
     
     public int X;
     public int Y;
-    private CornGrid grid;
+    private CornGrid grid = null;
 
     void Awake() {
         SetState(cachedState);
@@ -24,6 +24,8 @@ public class CornCell : MonoBehaviour {
     }
 
     void Update() {
+        if (grid == null) return;
+        if (grid.Paused) return;
         if (timer > Time.time) return;
         // Check
         int ss = GetSurroundState();
@@ -41,7 +43,7 @@ public class CornCell : MonoBehaviour {
                 cachedState = false;
                 break;
         }
-        timer = Time.time + 0.05f;
+        timer = Time.time + grid.GenerationTime;
     }
 
     private void LateUpdate() {
